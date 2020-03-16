@@ -1,5 +1,8 @@
 const express = require('express'); // Let us use the library
+const bodyParser = require('body-parser'); // Use to make POST
 const app = express(); // instanciate the library
+
+app.use(bodyParser.json());
 
 
 const mockUserData = [
@@ -24,6 +27,32 @@ app.get('/users/:id',function(req,res){ // In Express, words with a colon in fro
 //          users: mockUserData
 //     })
 // })
+
+// POST request handler
+app.post('/login',function(req,res){
+    const username=req.body.username; // scrape JSON for username
+    const password=req.body.password; // scrape for password
+
+    console.log(username);
+
+    const mockUsername="tam";
+    const mockPassword="123";
+
+    if (username===mockUsername && password===mockPassword){
+         res.json({
+              success: true,
+              message: 'password and username match!',
+              token: 'encrypted token goes here'
+         })
+    } else {
+         res.json({
+              success: false,
+              message: 'password and username do not match',
+              user: username,
+              pass: password
+         })
+    }
+})
 
 app.listen(8000, function() {
     console.log("server is running")
